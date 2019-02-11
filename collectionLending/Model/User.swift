@@ -11,11 +11,9 @@ import Foundation
 class User {
     // MARK: - Properties
     let uuid: String
-    let username: String
     
     // MARK: - Initialization
-    init(uuid: String, username: String) {
+    init(uuid: String) {
         self.uuid = uuid
-        self.username = username
     }
 }
