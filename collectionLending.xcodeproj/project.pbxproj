@@ -13,17 +13,29 @@
 		265A40BC220A55D7002B9464 /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265A40BB220A55D7002B9464 /* UserController.swift */; };
 		265A40C0220A5717002B9464 /* CollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265A40BF220A5717002B9464 /* CollectionController.swift */; };
 		265A40C2220CB0D8002B9464 /* Firebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265A40C1220CB0D8002B9464 /* Firebase.swift */; };
+		2672B5B322134C5A000DA63B /* ItemsLendableTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2672B5B222134C5A000DA63B /* ItemsLendableTableViewController.swift */; };
 		26977449220CD97400E7EEA0 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26977448220CD97400E7EEA0 /* WelcomeViewController.swift */; };
 		2697744D220CDACC00E7EEA0 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2697744C220CDACC00E7EEA0 /* LogInViewController.swift */; };
 		2697744F220CE67100E7EEA0 /* CollectionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2697744E220CE67100E7EEA0 /* CollectionTableViewController.swift */; };
 		26977452220CE80100E7EEA0 /* CollectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26977451220CE80100E7EEA0 /* CollectionTableViewCell.swift */; };
 		26977454220CEC6000E7EEA0 /* CollectionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26977453220CEC6000E7EEA0 /* CollectionDetailViewController.swift */; };
 		26977456220CF21900E7EEA0 /* AddCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26977455220CF21900E7EEA0 /* AddCollectionViewController.swift */; };
+		26977459221224D500E7EEA0 /* FriendToLendTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26977458221224D500E7EEA0 /* FriendToLendTableViewController.swift */; };
+		2697745C22123A0100E7EEA0 /* FriendController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2697745B22123A0100E7EEA0 /* FriendController.swift */; };
+		2697745E22123E0600E7EEA0 /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2697745D22123E0600E7EEA0 /* FriendsTableViewController.swift */; };
+		2697746022123E4E00E7EEA0 /* FriendsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2697745F22123E4E00E7EEA0 /* FriendsTableViewCell.swift */; };
+		269774622213416B00E7EEA0 /* FriendToLendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269774612213416B00E7EEA0 /* FriendToLendTableViewCell.swift */; };
 		26DBF62F220A04CD003A82BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DBF62E220A04CD003A82BB /* AppDelegate.swift */; };
 		26DBF634220A04CD003A82BB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26DBF632220A04CD003A82BB /* Main.storyboard */; };
 		26DBF636220A04CF003A82BB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26DBF635220A04CF003A82BB /* Assets.xcassets */; };
 		26DBF639220A04CF003A82BB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26DBF637220A04CF003A82BB /* LaunchScreen.storyboard */; };
 		26DBF641220A0633003A82BB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 26DBF640220A0633003A82BB /* GoogleService-Info.plist */; };
+		26E8FEA522134DE400996980 /* Lendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E8FEA422134DE400996980 /* Lendable.swift */; };
+		26E8FEA72213518100996980 /* LendableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E8FEA62213518100996980 /* LendableController.swift */; };
+		26E8FEA92213675900996980 /* ItemsLendableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E8FEA82213675900996980 /* ItemsLendableTableViewCell.swift */; };
+		26E8FEAB22136A0900996980 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E8FEAA22136A0900996980 /* DateExtension.swift */; };
+		26E8FEAD22136FEF00996980 /* ItemDetailLendableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E8FEAC22136FEF00996980 /* ItemDetailLendableViewController.swift */; };
+		26E8FEAF221372AA00996980 /* AddItemLendableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E8FEAE221372AA00996980 /* AddItemLendableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,12 +45,18 @@
 		265A40BB220A55D7002B9464 /* UserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
 		265A40BF220A5717002B9464 /* CollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionController.swift; sourceTree = "<group>"; };
 		265A40C1220CB0D8002B9464 /* Firebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Firebase.swift; sourceTree = "<group>"; };
+		2672B5B222134C5A000DA63B /* ItemsLendableTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsLendableTableViewController.swift; sourceTree = "<group>"; };
 		26977448220CD97400E7EEA0 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		2697744C220CDACC00E7EEA0 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		2697744E220CE67100E7EEA0 /* CollectionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionTableViewController.swift; sourceTree = "<group>"; };
 		26977451220CE80100E7EEA0 /* CollectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionTableViewCell.swift; sourceTree = "<group>"; };
 		26977453220CEC6000E7EEA0 /* CollectionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDetailViewController.swift; sourceTree = "<group>"; };
 		26977455220CF21900E7EEA0 /* AddCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollectionViewController.swift; sourceTree = "<group>"; };
+		26977458221224D500E7EEA0 /* FriendToLendTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendToLendTableViewController.swift; sourceTree = "<group>"; };
+		2697745B22123A0100E7EEA0 /* FriendController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendController.swift; sourceTree = "<group>"; };
+		2697745D22123E0600E7EEA0 /* FriendsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
+		2697745F22123E4E00E7EEA0 /* FriendsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewCell.swift; sourceTree = "<group>"; };
+		269774612213416B00E7EEA0 /* FriendToLendTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendToLendTableViewCell.swift; sourceTree = "<group>"; };
 		26DBF62B220A04CD003A82BB /* collectionLending.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = collectionLending.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		26DBF62E220A04CD003A82BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		26DBF633220A04CD003A82BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -46,6 +64,12 @@
 		26DBF638220A04CF003A82BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		26DBF63A220A04CF003A82BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		26DBF640220A0633003A82BB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		26E8FEA422134DE400996980 /* Lendable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lendable.swift; sourceTree = "<group>"; };
+		26E8FEA62213518100996980 /* LendableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LendableController.swift; sourceTree = "<group>"; };
+		26E8FEA82213675900996980 /* ItemsLendableTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsLendableTableViewCell.swift; sourceTree = "<group>"; };
+		26E8FEAA22136A0900996980 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		26E8FEAC22136FEF00996980 /* ItemDetailLendableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailLendableViewController.swift; sourceTree = "<group>"; };
+		26E8FEAE221372AA00996980 /* AddItemLendableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemLendableViewController.swift; sourceTree = "<group>"; };
 		679D384F2D61D46D0EA03F60 /* Pods-collectionLending.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-collectionLending.release.xcconfig"; path = "Pods/Target Support Files/Pods-collectionLending/Pods-collectionLending.release.xcconfig"; sourceTree = "<group>"; };
 		B8A79D031504985CCCC26E5E /* Pods-collectionLending.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-collectionLending.debug.xcconfig"; path = "Pods/Target Support Files/Pods-collectionLending/Pods-collectionLending.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -77,6 +101,8 @@
 				265A40B4220A52D3002B9464 /* User.swift */,
 				265A40B9220A54FB002B9464 /* Collection.swift */,
 				265A40C1220CB0D8002B9464 /* Firebase.swift */,
+				26E8FEA422134DE400996980 /* Lendable.swift */,
+				26E8FEAA22136A0900996980 /* DateExtension.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -99,6 +125,8 @@
 			children = (
 				265A40BB220A55D7002B9464 /* UserController.swift */,
 				265A40BF220A5717002B9464 /* CollectionController.swift */,
+				2697745B22123A0100E7EEA0 /* FriendController.swift */,
+				26E8FEA62213518100996980 /* LendableController.swift */,
 			);
 			path = ModelController;
 			sourceTree = "<group>";
@@ -108,6 +136,8 @@
 			children = (
 				26977450220CE67800E7EEA0 /* Login */,
 				26977457220CF23C00E7EEA0 /* Collection */,
+				2697745A221224DA00E7EEA0 /* Friend */,
+				269774652213479400E7EEA0 /* Lendable */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -130,6 +160,28 @@
 				26977455220CF21900E7EEA0 /* AddCollectionViewController.swift */,
 			);
 			path = Collection;
+			sourceTree = "<group>";
+		};
+		2697745A221224DA00E7EEA0 /* Friend */ = {
+			isa = PBXGroup;
+			children = (
+				26977458221224D500E7EEA0 /* FriendToLendTableViewController.swift */,
+				2697745D22123E0600E7EEA0 /* FriendsTableViewController.swift */,
+				2697745F22123E4E00E7EEA0 /* FriendsTableViewCell.swift */,
+				269774612213416B00E7EEA0 /* FriendToLendTableViewCell.swift */,
+			);
+			path = Friend;
+			sourceTree = "<group>";
+		};
+		269774652213479400E7EEA0 /* Lendable */ = {
+			isa = PBXGroup;
+			children = (
+				2672B5B222134C5A000DA63B /* ItemsLendableTableViewController.swift */,
+				26E8FEA82213675900996980 /* ItemsLendableTableViewCell.swift */,
+				26E8FEAC22136FEF00996980 /* ItemDetailLendableViewController.swift */,
+				26E8FEAE221372AA00996980 /* AddItemLendableViewController.swift */,
+			);
+			path = Lendable;
 			sourceTree = "<group>";
 		};
 		26DBF622220A04CD003A82BB = {
@@ -328,17 +380,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				265A40C2220CB0D8002B9464 /* Firebase.swift in Sources */,
+				2697745C22123A0100E7EEA0 /* FriendController.swift in Sources */,
+				269774622213416B00E7EEA0 /* FriendToLendTableViewCell.swift in Sources */,
+				26977459221224D500E7EEA0 /* FriendToLendTableViewController.swift in Sources */,
+				26E8FEAF221372AA00996980 /* AddItemLendableViewController.swift in Sources */,
+				26E8FEA522134DE400996980 /* Lendable.swift in Sources */,
+				2697746022123E4E00E7EEA0 /* FriendsTableViewCell.swift in Sources */,
+				26E8FEA72213518100996980 /* LendableController.swift in Sources */,
 				2697744F220CE67100E7EEA0 /* CollectionTableViewController.swift in Sources */,
 				265A40BA220A54FB002B9464 /* Collection.swift in Sources */,
+				26E8FEA92213675900996980 /* ItemsLendableTableViewCell.swift in Sources */,
 				26977454220CEC6000E7EEA0 /* CollectionDetailViewController.swift in Sources */,
 				265A40B5220A52D3002B9464 /* User.swift in Sources */,
 				265A40BC220A55D7002B9464 /* UserController.swift in Sources */,
 				26977452220CE80100E7EEA0 /* CollectionTableViewCell.swift in Sources */,
+				2672B5B322134C5A000DA63B /* ItemsLendableTableViewController.swift in Sources */,
 				2697744D220CDACC00E7EEA0 /* LogInViewController.swift in Sources */,
 				26977456220CF21900E7EEA0 /* AddCollectionViewController.swift in Sources */,
+				26E8FEAB22136A0900996980 /* DateExtension.swift in Sources */,
 				265A40C0220A5717002B9464 /* CollectionController.swift in Sources */,
 				26DBF62F220A04CD003A82BB /* AppDelegate.swift in Sources */,
+				26E8FEAD22136FEF00996980 /* ItemDetailLendableViewController.swift in Sources */,
 				26977449220CD97400E7EEA0 /* WelcomeViewController.swift in Sources */,
+				2697745E22123E0600E7EEA0 /* FriendsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

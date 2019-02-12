@@ -18,7 +18,7 @@ class CollectionController {
     // MARK: - CRUD
     // create
     func createAnItem(title: String, status: String, image: UIImage, count: Int, completion: @escaping SuccessCompletion) {
-        let newItem = Collection(title: title, status: status, count: count)
+        let newItem = Collection(title: title, status: status, collectionItemImage: image, count: count)
         collections.append(newItem)
         Firebase.shared.saveItemToFirebase(collection: newItem) { (_) in
         completion(true)
@@ -30,15 +30,17 @@ class CollectionController {
         collection.title = title
         collection.status = status
         collection.count = count
+        Firebase.shared.updateItemsToFirebase(collection: collection, title: title, status: status, count: count) { (_) in
+        }
         completion(true)
-        //TODO: Firebase update Items
     }
     
     // delete
     func deleteItem(collection: Collection, completion: @escaping SuccessCompletion) {
         guard let index = collections.index(of: collection) else { completion(false) ; return }
         collections.remove(at: index)
+        Firebase.shared.deleteAnItemFromFirebase(collection: collection) { (_) in
+        }
         completion(true)
-        //TODO: Firebase delete item
     }
 }

@@ -12,6 +12,7 @@ import Firebase
 class UserController {
     // MARK: - Properties
     static let shared = UserController() ; private init(){}
+    var users: [User] = []
     var currentUser: User?
     
     // MARK: - Methods
@@ -22,7 +23,9 @@ class UserController {
                 completion(false)
             }
             guard let auth = auth?.user.uid, !username.isEmpty else { completion(false) ; return }
-            self.currentUser = User(uuid: auth)
+            self.currentUser = User(uuid: auth, username: username)
+            Firebase.shared.saveUser(user: User(uuid: auth, username: username), completion: { (_) in
+            })
             completion(true)
         }
     }
@@ -35,6 +38,8 @@ class UserController {
             }
             guard let auth = auth?.user.uid else { completion(false) ; return }
             self.currentUser = User(uuid: auth)
+            Firebase.shared.fetchOneUser(completion: { (_) in
+            })
             completion(true)
         }
     }

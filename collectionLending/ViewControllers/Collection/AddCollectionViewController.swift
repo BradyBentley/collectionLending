@@ -47,6 +47,7 @@ class AddCollectionViewController: UIViewController {
     
     @IBAction func saveButtonTapped(_ sender: Any) {
         guard let title = collectionTitleTextField.text, !title.isEmpty, let count = collectionCountTextField.text, let status = collectionStatusTextField.text, let image = collectionImageView.image else { return }
+        collection?.collectionItemImage = image
         CollectionController.shared.createAnItem(title: title, status: status, image: image, count: Int(count) ?? 0) { (success) in
             if success {
                 Firebase.shared.savingItemImageToStorage(image: image, title: title, completion: { (success) in

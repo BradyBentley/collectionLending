@@ -11,10 +11,12 @@ import UIKit
 class CollectionTableViewController: UITableViewController {
     // MARK: - Properties
     var collection: Collection?
+    var user: User?
     
     // MARK: - ViewLifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.title = user?.username
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         Firebase.shared.fetchItemsFromFirebase { (success) in
             if success {
