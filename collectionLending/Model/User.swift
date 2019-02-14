@@ -12,23 +12,27 @@ class User {
     // MARK: - Properties
     let uuid: String
     var username: String
+    var friends: [String]
     
     // MARK: - Coding Keys
     enum userKeys {
         static let uuidKey = "uuid"
         static let usernameKey = "username"
+        static let friendsKey = "friends"
     }
     
     // MARK: - Initialization
-    init(uuid: String, username: String = "") {
+    init(uuid: String, username: String = "", friends: [String] = []) {
         self.uuid = uuid
         self.username = username
+        self.friends = friends
     }
     
     convenience init?(firebaseUser: [String: Any]) {
         guard let uuid = firebaseUser[userKeys.uuidKey] as? String,
-            let username = firebaseUser[userKeys.usernameKey] as? String else { return nil }
-        self.init(uuid: uuid, username: username)
+            let username = firebaseUser[userKeys.usernameKey] as? String,
+        let friends = firebaseUser[userKeys.friendsKey] as? [String] else { return nil }
+        self.init(uuid: uuid, username: username, friends: friends)
     }
 }
 
@@ -43,7 +47,8 @@ extension User {
     var dictionary: [String: Any] {
         return [
             userKeys.uuidKey: uuid,
-            userKeys.usernameKey: username
+            userKeys.usernameKey: username,
+            userKeys.friendsKey: friends
         ]
     }
 }

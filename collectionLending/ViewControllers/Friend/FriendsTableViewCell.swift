@@ -24,6 +24,7 @@ class FriendsTableViewCell: UITableViewCell {
             updateViews()
         }
     }
+    var user: User?
     var isFriend: Bool = false
     
     // MARK: - Actions
@@ -40,8 +41,13 @@ class FriendsTableViewCell: UITableViewCell {
         usersNameLabel.text = friend.username
         if isFriend {
             addFriendButton.setImage(UIImage(named: "checkmark"), for: .normal)
+            FriendController.shared.addToFriendsList(uuid: friend.uuid, username: friend.username) { (_) in
+            }
         } else {
             addFriendButton.setImage(UIImage(named: "circle"), for: .normal)
+            guard let user = user else { return }
+            FriendController.shared.removeFriendFromList(user: user, friend: friend) { (_) in
+            }
         }
     }
 

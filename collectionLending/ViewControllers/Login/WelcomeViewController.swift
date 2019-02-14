@@ -24,8 +24,6 @@ class WelcomeViewController: UIViewController {
             if let user = user {
                 let uuid = user.uid
                 UserController.shared.currentUser = User(uuid: uuid)
-                Firebase.shared.fetchOneUser(completion: { (_) in
-                })
                 self.performSegue(withIdentifier: "ToMainPageFromWelcomePage", sender: self)
             }
         }

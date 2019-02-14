@@ -37,9 +37,29 @@ class Firebase {
             for collection in collections {
                 self.fetchItemImage(title: collection.title, completion: { (image) in
                     collection.collectionItemImage = image
+                    completion(true)
                 })
             }
-            completion(true)
+        }
+    }
+    
+    func fetchFriends(completion: @escaping SuccessCompletion) {
+        guard let currentUser = UserController.shared.currentUser else { completion(false) ; return }
+        var friends: [User] = []
+        for friendsUUID in currentUser.friends {
+            let docRef = firestore.collection(Collection.collectionKeys.userKey).document(friendsUUID)
+            docRef.getDocument { (document, error) in
+                if let error = error {
+                    print("❌Error creating a User: \(error) \(error.localizedDescription)")
+                    completion(false)
+                    return
+                }
+                guard let document = document?.data(),
+                let friend = User(firebaseUser: document) else { completion(false) ; return }
+                friends.append(friend)
+                FriendController.shared.friends = friends
+                completion(true)
+            }
         }
     }
     
@@ -48,18 +68,18 @@ class Firebase {
         for friend in friends {
             firestore.collection(Collection.collectionKeys.userKey).document(friend.uuid).collection(Collection.collectionKeys.collectionKey).getDocuments { (query, error) in
                 if let error = error {
-                    print("❌Error creating a User: \(error) \(error.localizedDescription)")
+                    print("❌Error obtaing Documents: \(error) \(error.localizedDescription)")
                     completion(false)
                 }
                 guard let documents = query?.documents else { completion(false) ; return }
                 let collections = documents.compactMap { Collection(firebaseDictionary: $0.data())}
-                CollectionController.shared.collections = collections
+                FriendController.shared.friendsCollections = collections
                 for collection in collections {
-                    self.fetchItemImage(title: collection.title, completion: { (image) in
+                    self.fetchFriendsItemImage(friend: friend, title: collection.title, completion: { (image) in
                         collection.collectionItemImage = image
+                        completion(true)
                     })
                 }
-                completion(true)
             }
         }
     }
@@ -128,6 +148,20 @@ class Firebase {
         }
     }
     
+    func fetchFriendsItemImage(friend: User, title: String, completion: @escaping (UIImage?) -> Void) {
+        let gsReference = storage.reference(forURL: "gs://collectionlending.appspot.com/\(friend.uuid)/\(title).jpeg")
+        gsReference.getData(maxSize: 1 * 1024 * 1024) { (data, error) in
+            if let error = error {
+                print("❌Error creating a User: \(error) \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+            guard let data = data else { completion(nil) ; return }
+            let image = UIImage(data: data)
+            completion(image)
+        }
+    }
+    
     func fetchBorrowerImage(title: String, friendsName: String, completion: @escaping (UIImage?) -> Void) {
         let gsReference = storage.reference(forURL: "gs://collectionlending.appspot.com/borrowerImages/\(title)\(friendsName).jpeg")
         gsReference.getData(maxSize: 1 * 1024 * 1024) { (data, error) in
@@ -142,11 +176,26 @@ class Firebase {
         }
     }
     
+    func updateFriendsArray(friend: User, completion: @escaping SuccessCompletion) {
+        guard let currentUser = UserController.shared.currentUser?.uuid else { completion(false) ; return }
+        let docRef = firestore.collection(Collection.collectionKeys.userKey).document(currentUser)
+        docRef.updateData([User.userKeys.friendsKey: FieldValue.arrayUnion([friend.uuid])])
+        completion(true)
+    }
+    
+    func removeFriendFromArray(friend: User, completion: @escaping SuccessCompletion) {
+        guard let currentUser = UserController.shared.currentUser?.uuid else { completion(false) ; return }
+        let docRef = firestore.collection(Collection.collectionKeys.userKey).document(currentUser)
+        docRef.updateData([User.userKeys.friendsKey: FieldValue.arrayRemove([friend.uuid])])
+        completion(true)
+    }
+    
     // MARK: - Users
     func saveUser(user: User, completion: @escaping SuccessCompletion) {
-        guard let currentUser = UserController.shared.currentUser?.uuid else { return }
+        guard let currentUser = UserController.shared.currentUser?.uuid else { completion(false) ; return }
         let docRef = firestore.collection(Collection.collectionKeys.userKey).document(currentUser)
         docRef.setData(user.dictionary)
+        completion(true)
     }
     
     func fetchOneUser(completion: @escaping SuccessCompletion) {
@@ -158,9 +207,9 @@ class Firebase {
                 completion(false)
                 return
             }
-            guard let document = document,
-            let name = document.get(User.userKeys.usernameKey) as? String else { return }
-            UserController.shared.currentUser?.username = name
+            guard let document = document?.data(),
+            let user = User(firebaseUser: document) else { completion(false) ; return }
+            UserController.shared.currentUser = user
             completion(true)
         }
     }
@@ -201,10 +250,16 @@ class Firebase {
             for lendable in lendables {
                 self.fetchBorrowerImage(title: lendable.title, friendsName: lendable.friendsName, completion: { (image) in
                     lendable.borrowerImage = image
+                    completion(true)
                 })
             }
-            completion(true)
         }
+    }
+    
+    func updateIsReturned(lendable: Lendable, isReturned: Bool, completion: @escaping SuccessCompletion) {
+        guard let currentUser = UserController.shared.currentUser?.uuid else { completion(false) ; return }
+        let docRef = firestore.collection(Collection.collectionKeys.collectionKey).document(currentUser).collection(Lendable.lendableKeys.lendableKey).document(lendable.uuid)
+        docRef.updateData([Lendable.lendableKeys.isReturnedKey: isReturned])
     }
     
     func deleteLendableFromFirebase(lendable: Lendable, completion: @escaping SuccessCompletion) {

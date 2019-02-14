@@ -28,6 +28,8 @@ class AddCollectionViewController: UIViewController {
         super.viewDidLoad()
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(tapGesture)
     }
     
     // MARK: - Actions
@@ -159,5 +161,9 @@ extension AddCollectionViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    @objc func hideKeyboard() {
+        view.endEditing(true)
     }
 }

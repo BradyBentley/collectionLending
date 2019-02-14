@@ -22,9 +22,17 @@ class FriendToLendTableViewCell: UITableViewCell {
             updateView()
         }
     }
+    var collection: Collection? {
+        didSet {
+            updateView()
+        }
+    }
     
     // MARK: - Setup
     func updateView() {
-        
-    }
+        guard let collection = collection else { return }
+        friendItemImageView.image = collection.collectionItemImage
+        friendTitleLabel.text = collection.title
+        friendStatusLabel.text = collection.status
+    }    
 }

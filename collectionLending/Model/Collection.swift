@@ -14,7 +14,7 @@ class Collection {
     var status: String
     var collectionItemImage: UIImage?
     var count: Int
-    var friends: [User]
+    var friends: [String]
     var uuid: String
     
     
@@ -31,7 +31,7 @@ class Collection {
     }
     
     // MARK: - Initialization
-    init(title: String, status: String, collectionItemImage: UIImage?, count: Int, friends: [User] = [], uuid: String = UUID().uuidString) {
+    init(title: String, status: String, collectionItemImage: UIImage?, count: Int, friends: [String] = [], uuid: String = UUID().uuidString) {
         self.title = title
         self.status = status
         self.collectionItemImage = collectionItemImage
@@ -44,8 +44,9 @@ class Collection {
         guard let title = firebaseDictionary[collectionKeys.titleKey] as? String,
         let status = firebaseDictionary[collectionKeys.statusKey] as? String,
         let count = firebaseDictionary[collectionKeys.countKey] as? Int,
+            let friends = firebaseDictionary[collectionKeys.friendsKey] as? [String],
         let uuid = firebaseDictionary[collectionKeys.uuidKey] as? String else { return nil }
-        self.init(title: title, status: status, collectionItemImage: nil, count: count, uuid: uuid)
+        self.init(title: title, status: status, collectionItemImage: nil, count: count, friends: friends, uuid: uuid)
     }
 }
 

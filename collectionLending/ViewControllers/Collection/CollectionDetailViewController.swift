@@ -37,6 +37,8 @@ class CollectionDetailViewController: UIViewController {
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
         isEditing = false
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(tapGesture)
     }
     
     // MARK: - Action
@@ -194,5 +196,9 @@ extension CollectionDetailViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    @objc func hideKeyboard() {
+        view.endEditing(true)
     }
 }

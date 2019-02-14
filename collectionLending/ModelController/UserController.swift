@@ -38,8 +38,6 @@ class UserController {
             }
             guard let auth = auth?.user.uid else { completion(false) ; return }
             self.currentUser = User(uuid: auth)
-            Firebase.shared.fetchOneUser(completion: { (_) in
-            })
             completion(true)
         }
     }
@@ -53,5 +51,21 @@ class UserController {
             print ("Error signing out: %@", signOutError)
             completion(false)
         }
+    }
+    
+    func updateFriend(friend: User, completion: @escaping SuccessCompletion) {
+        guard let currentUser = currentUser else { completion(false) ; return }
+        currentUser.friends.append(friend.uuid)
+        Firebase.shared.updateFriendsArray(friend: friend) { (_) in
+        }
+        completion(true)
+    }
+    
+    func removeFriend(friend: User, completion: SuccessCompletion) {
+        guard let currentUser = currentUser, let index = currentUser.friends.index(of: friend.uuid) else { completion(false) ; return }
+        currentUser.friends.remove(at: index)
+        Firebase.shared.removeFriendFromArray(friend: friend) { (_) in
+        }
+        completion(true)
     }
 }

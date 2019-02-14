@@ -30,6 +30,8 @@ class AddItemLendableViewController: UIViewController {
         }
         let imagePickerController = UINavigationController()
         imagePickerController.delegate = self
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(tapGesture)
     }
     
     // MARK: - Actions
@@ -92,6 +94,10 @@ extension AddItemLendableViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    @objc func hideKeyboard() {
+        view.endEditing(true)
     }
 }
 

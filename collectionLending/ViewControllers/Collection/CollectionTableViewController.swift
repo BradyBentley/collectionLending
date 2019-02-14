@@ -9,6 +9,10 @@
 import UIKit
 
 class CollectionTableViewController: UITableViewController {
+    // MARK: - IBOutlet
+    @IBOutlet weak var mainCollectionSearchBar: UISearchBar!
+    
+    
     // MARK: - Properties
     var collection: Collection?
     var user: User?
@@ -20,10 +24,19 @@ class CollectionTableViewController: UITableViewController {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         Firebase.shared.fetchItemsFromFirebase { (success) in
             if success {
-                DispatchQueue.main.async {
-                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                    self.tableView.reloadData()
-                }
+                Firebase.shared.fetchOneUser(completion: { (success) in
+                    if success {
+                        Firebase.shared.fetchFriends(completion: { (success) in
+                            if success {
+                                DispatchQueue.main.async {
+                                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                                    self.tableView.reloadData()
+                                }
+                                
+                            }
+                        })
+                    }
+                })
             }
         }
     }
@@ -64,4 +77,8 @@ class CollectionTableViewController: UITableViewController {
             destinationVC?.collection = collection
         }
     }
+}
+
+extension CollectionTableViewController: UISearchBarDelegate {
+    
 }

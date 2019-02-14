@@ -39,18 +39,3 @@ class FriendsTableViewController: UITableViewController {
     }
 }
 
-// MARK: - FriendsTableViewCellDelegate
-extension FriendsTableViewController: FriendsTableViewCellDelegate {
-    func cellButtonTapped(_ cell: FriendsTableViewCell) {
-        guard let user = cell.friend, let uuid = cell.friend?.uuid, let username = cell.friend?.username else { return }
-        if cell.isFriend {
-            FriendController.shared.addToFriendsList(uuid: uuid, username: username) { (_) in
-            }
-        } else {
-            FriendController.shared.removeFriendFromList(user: user) { (_) in
-            }
-        }
-    }
-    
-    
-}
