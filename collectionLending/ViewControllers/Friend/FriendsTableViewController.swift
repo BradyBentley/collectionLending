@@ -9,6 +9,10 @@
 import UIKit
 
 class FriendsTableViewController: UITableViewController {
+    // MARK: - IBOutlets
+    @IBOutlet weak var findAFriendSearchBar: UISearchBar!
+    
+    
     // MARK: - Properties
     var user: User?
     
@@ -30,12 +34,19 @@ class FriendsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FriendCell", for: indexPath) as! FriendsTableViewCell
         let user = UserController.shared.users[indexPath.row]
+        cell.delegate = self
         cell.friend = user
         return cell
     }
 
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    }
+}
+
+extension FriendsTableViewController: FriendsTableViewCellDelegate {
+    func cellButtonTapped(_ cell: FriendsTableViewCell) {
+        tableView.reloadData()
     }
 }
 

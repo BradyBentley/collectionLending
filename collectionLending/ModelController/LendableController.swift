@@ -25,7 +25,11 @@ class LendableController {
     func deleteLendable(lendable: Lendable, completion: @escaping SuccessCompletion) {
         guard let index = lendables.index(of: lendable) else { completion(false) ; return }
         lendables.remove(at: index)
-        Firebase.shared.deleteLendableFromFirebase(lendable: lendable) { (_) in
+        Firebase.shared.deleteLendableFromFirebase(lendable: lendable) { (success) in
+            if success {
+                Firebase.shared.deleteBorrowerImage(title: lendable.title, friendsName: lendable.friendsName, completion: { (_) in
+                })
+            }
         }
         completion(true)
     }

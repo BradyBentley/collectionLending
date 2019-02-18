@@ -23,7 +23,7 @@ class FriendController {
         completion(true)
     }
     
-    func removeFriendFromList(user: User, friend: User, completion: @escaping SuccessCompletion) {
+    func removeFriendFromList(friend: User, completion: @escaping SuccessCompletion) {
         guard let index = friends.index(of: friend) else { completion(false) ; return }
         friends.remove(at: index)
         UserController.shared.removeFriend(friend: friend) { (_) in

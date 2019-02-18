@@ -187,7 +187,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="minimal" id="s0I-Mz-tR5">
+                        <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="minimal" showsCancelButton="YES" id="s0I-Mz-tR5">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>
@@ -636,6 +636,16 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rc4-pA-yeD">
+                                <rect key="frame" x="337" y="777" width="57" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Delete">
+                                    <color key="titleColor" red="1" green="0.1683992869" blue="0.1015521025" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="deleteButtonTapped:" destination="nSN-Hr-x7f" eventType="touchUpInside" id="owg-Qm-ZJO"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -643,7 +653,9 @@
                             <constraint firstItem="hen-EZ-CRs" firstAttribute="top" secondItem="mHP-1H-xPP" secondAttribute="bottom" constant="24" id="DKs-ZT-hIY"/>
                             <constraint firstItem="hen-EZ-CRs" firstAttribute="leading" secondItem="eHH-th-epR" secondAttribute="leading" constant="8" id="NNd-5k-ddN"/>
                             <constraint firstItem="mHP-1H-xPP" firstAttribute="top" secondItem="eHH-th-epR" secondAttribute="top" constant="24" id="QdM-sq-N34"/>
+                            <constraint firstItem="rc4-pA-yeD" firstAttribute="bottom" secondItem="eHH-th-epR" secondAttribute="bottom" id="mhz-l6-Ct8"/>
                             <constraint firstItem="eHH-th-epR" firstAttribute="trailing" secondItem="hen-EZ-CRs" secondAttribute="trailing" constant="8" id="tYK-Og-DMp"/>
+                            <constraint firstItem="eHH-th-epR" firstAttribute="trailing" secondItem="rc4-pA-yeD" secondAttribute="trailing" constant="20" id="vGz-Rs-3Hx"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="eHH-th-epR"/>
                     </view>
@@ -661,6 +673,7 @@
                         <outlet property="collectionTitleLabel" destination="Mfa-RB-vYI" id="zvv-cA-GHR"/>
                         <outlet property="countPickerView" destination="mj3-kn-X9P" id="fom-NX-60M"/>
                         <outlet property="countTextField" destination="hgj-Lx-qao" id="sZN-rq-kLJ"/>
+                        <outlet property="deleteButton" destination="rc4-pA-yeD" id="Kyt-0y-vDu"/>
                         <outlet property="editButton" destination="fWC-c6-Dls" id="LIt-7Y-dNj"/>
                         <outlet property="imageChoiceStackView" destination="hwo-1E-0Js" id="AMG-lx-Xul"/>
                         <outlet property="itemEditableStackView" destination="oNr-PQ-j2p" id="5R3-rD-kdL"/>
@@ -701,7 +714,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="minimal" id="6t9-DK-s2q">
+                        <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="minimal" showsCancelButton="YES" id="6t9-DK-s2q">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>
@@ -783,6 +796,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="friendsItemSearchBar" destination="6t9-DK-s2q" id="6Vz-Hv-Efk"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fVx-R3-KU3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -796,7 +812,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="minimal" id="UX8-Ae-AQS">
+                        <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="minimal" placeholder="Find Friends.." showsCancelButton="YES" id="UX8-Ae-AQS">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>
@@ -850,6 +866,9 @@
                             <outlet property="delegate" destination="e4o-Fi-t0Z" id="IOC-e1-uM7"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="findAFriendSearchBar" destination="UX8-Ae-AQS" id="GAO-tS-bZO"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C83-6s-86p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1089,6 +1108,17 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xu2-JM-ikg">
+                                <rect key="frame" x="331" y="782" width="57" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Delete">
+                                    <color key="titleColor" red="1" green="0.1683992869" blue="0.1015521025" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="deleteButtonTapped:" destination="dVn-H1-s40" eventType="touchUpInside" id="XvS-io-jRM"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>

@@ -28,7 +28,7 @@ class Firebase {
         guard let currentUser = UserController.shared.currentUser?.uuid else { completion(false) ; return }
         firestore.collection(Collection.collectionKeys.userKey).document(currentUser).collection(Collection.collectionKeys.collectionKey).getDocuments { (query, error) in
             if let error = error {
-                print("❌Error creating a User: \(error) \(error.localizedDescription)")
+                print("❌Error: \(error) \(error.localizedDescription)")
                 completion(false)
             }
             guard let documents = query?.documents else { completion(false) ; return }
@@ -50,7 +50,7 @@ class Firebase {
             let docRef = firestore.collection(Collection.collectionKeys.userKey).document(friendsUUID)
             docRef.getDocument { (document, error) in
                 if let error = error {
-                    print("❌Error creating a User: \(error) \(error.localizedDescription)")
+                    print("❌Error: \(error) \(error.localizedDescription)")
                     completion(false)
                     return
                 }
@@ -110,7 +110,7 @@ class Firebase {
         let pictureRef = storageRef.child("\(currentUser)/\(title).jpeg")
         pictureRef.putData(pictureData, metadata: nil) { (_, error) in
             if let error = error {
-                print("❌Error creating a User: \(error) \(error.localizedDescription)")
+                print("❌Error Saving: \(error) \(error.localizedDescription)")
                 completion(false)
                 return
             }
@@ -121,11 +121,11 @@ class Firebase {
     func savingBorrowerImageToStorage(image: UIImage, title: String, friendsName: String, completion: @escaping SuccessCompletion) {
         let storageRef = storage.reference()
         let image = image
-        guard let pictureData = image.jpegData(compressionQuality: 0.25) else { completion(false) ; return }
-        let pictureRef = storageRef.child("borrowerImages/\(title)\(friendsName).jpeg")
+        guard let currentUser = UserController.shared.currentUser?.uuid, let pictureData = image.jpegData(compressionQuality: 0.25) else { completion(false) ; return }
+        let pictureRef = storageRef.child("\(currentUser)/\(title)\(friendsName).jpeg")
         pictureRef.putData(pictureData, metadata: nil) { (_, error) in
             if let error = error {
-                print("❌Error creating a User: \(error) \(error.localizedDescription)")
+                print("❌Error: \(error) \(error.localizedDescription)")
                 completion(false)
                 return
             }
@@ -138,7 +138,7 @@ class Firebase {
         let gsReference = storage.reference(forURL: "gs://collectionlending.appspot.com/\(currentUser)/\(title).jpeg")
         gsReference.getData(maxSize: 1 * 1024 * 1024) { (data, error) in
             if let error = error {
-                print("❌Error creating a User: \(error) \(error.localizedDescription)")
+                print("❌Error: \(error) \(error.localizedDescription)")
                 completion(nil)
                 return
             }
@@ -152,7 +152,7 @@ class Firebase {
         let gsReference = storage.reference(forURL: "gs://collectionlending.appspot.com/\(friend.uuid)/\(title).jpeg")
         gsReference.getData(maxSize: 1 * 1024 * 1024) { (data, error) in
             if let error = error {
-                print("❌Error creating a User: \(error) \(error.localizedDescription)")
+                print("❌Error: \(error) \(error.localizedDescription)")
                 completion(nil)
                 return
             }
@@ -163,16 +163,43 @@ class Firebase {
     }
     
     func fetchBorrowerImage(title: String, friendsName: String, completion: @escaping (UIImage?) -> Void) {
-        let gsReference = storage.reference(forURL: "gs://collectionlending.appspot.com/borrowerImages/\(title)\(friendsName).jpeg")
+        guard let currentUser = UserController.shared.currentUser?.uuid else { completion(nil) ; return }
+        let gsReference = storage.reference(forURL: "gs://collectionlending.appspot.com/\(currentUser)/\(title)\(friendsName).jpeg")
         gsReference.getData(maxSize: 1 * 1024 * 1024) { (data, error) in
             if let error = error {
-                print("❌Error creating a User: \(error) \(error.localizedDescription)")
+                print("❌Error: \(error) \(error.localizedDescription)")
                 completion(nil)
                 return
             }
             guard let data = data else { completion(nil) ; return }
             let image = UIImage(data: data)
             completion(image)
+        }
+    }
+    
+    func deleteItemImage(title: String, completion: @escaping SuccessCompletion) {
+        guard let currentUser = UserController.shared.currentUser?.uuid else { completion(false) ; return }
+        let itemRef = storage.reference(forURL: "gs://collectionlending.appspot.com/\(currentUser)/\(title).jpeg")
+        itemRef.delete { (error) in
+            if let error = error {
+                print("❌Error delting a photo: \(error) \(error.localizedDescription)")
+                completion(false)
+                return
+            }
+            completion(true)
+        }
+    }
+    
+    func deleteBorrowerImage(title: String, friendsName: String, completion: @escaping SuccessCompletion) {
+        guard let currentUser = UserController.shared.currentUser?.uuid else { completion(false) ; return }
+        let gsRef = storage.reference(forURL: "gs://collectionlending.appspot.com/\(currentUser)/\(title)\(friendsName).jpeg")
+        gsRef.delete { (error) in
+            if let error = error {
+                print("❌Error deleting Photo: \(error) \(error.localizedDescription)")
+                completion(false)
+                return
+            }
+            completion(true)
         }
     }
     
@@ -203,7 +230,7 @@ class Firebase {
         let docRef = firestore.collection(Collection.collectionKeys.userKey).document(currentUser)
         docRef.getDocument { (document, error) in
             if let error = error {
-                print("❌Error creating a User: \(error) \(error.localizedDescription)")
+                print("❌Error: \(error) \(error.localizedDescription)")
                 completion(false)
                 return
             }
@@ -217,7 +244,7 @@ class Firebase {
     func fetchAllUsers(completion: @escaping SuccessCompletion) {
         firestore.collection(Collection.collectionKeys.userKey).getDocuments { (query, error) in
             if let error = error {
-                print("❌Error creating a User: \(error) \(error.localizedDescription)")
+                print("❌Error: \(error) \(error.localizedDescription)")
                 completion(false)
                 return
             }
@@ -240,7 +267,7 @@ class Firebase {
         guard let currentUser = UserController.shared.currentUser?.uuid else { completion(false) ; return }
         firestore.collection(Collection.collectionKeys.collectionKey).document(currentUser).collection(Lendable.lendableKeys.lendableKey).getDocuments { (query, error) in
             if let error = error {
-                print("❌Error creating a User: \(error) \(error.localizedDescription)")
+                print("❌Error: \(error) \(error.localizedDescription)")
                 completion(false)
                 return
             }

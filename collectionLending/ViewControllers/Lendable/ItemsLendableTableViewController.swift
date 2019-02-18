@@ -37,6 +37,17 @@ class ItemsLendableTableViewController: UITableViewController {
         cell.lendable = lendable
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let lendable = LendableController.shared.lendables[indexPath.row]
+            LendableController.shared.deleteLendable(lendable: lendable) { (success) in
+                if success {
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
 
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -12,8 +12,9 @@ class CollectionTableViewController: UITableViewController {
     // MARK: - IBOutlet
     @IBOutlet weak var mainCollectionSearchBar: UISearchBar!
     
-    
     // MARK: - Properties
+    var resultsArray: [SearchableRecord]?
+    var isSearching: Bool = false
     var collection: Collection?
     var user: User?
     
@@ -39,6 +40,7 @@ class CollectionTableViewController: UITableViewController {
                 })
             }
         }
+        mainCollectionSearchBar.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,13 +59,22 @@ class CollectionTableViewController: UITableViewController {
 
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return CollectionController.shared.collections.count
+        if isSearching == true {
+            return resultsArray?.count ?? 0
+        } else {
+            return CollectionController.shared.collections.count
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CollectionCell", for: indexPath) as! CollectionTableViewCell
-        let collection = CollectionController.shared.collections[indexPath.row]
-        cell.collection = collection
+        if isSearching == true {
+            let collection = resultsArray?[indexPath.row] as? Collection
+            cell.collection = collection
+        } else {
+            let collection = CollectionController.shared.collections[indexPath.row]
+            cell.collection = collection
+        }
         return cell
     }
     
@@ -80,5 +91,25 @@ class CollectionTableViewController: UITableViewController {
 }
 
 extension CollectionTableViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        let collections = CollectionController.shared.collections
+        let filterCollections = collections.filter{ $0.matches(searchTerm: searchText)}.compactMap{ $0 as SearchableRecord}
+        resultsArray = filterCollections
+        tableView.reloadData()
+    }
     
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        resultsArray = CollectionController.shared.collections
+        tableView.reloadData()
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        isSearching = true
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        isSearching = false
+    }
 }

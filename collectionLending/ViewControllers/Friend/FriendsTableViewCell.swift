@@ -29,26 +29,32 @@ class FriendsTableViewCell: UITableViewCell {
     
     // MARK: - Actions
     @IBAction func addFriendButtonTapped(_ sender: Any) {
-        isFriend = !isFriend
         delegate?.cellButtonTapped(self)
-        updateViews()
+        changeBoxImage()
     }
     
    
     // MARK: - Setup
     func updateViews() {
-        guard let friend = friend else { return }
+        guard let friend = friend, let user = UserController.shared.currentUser else { return }
         usersNameLabel.text = friend.username
-        if isFriend {
+        if user.friends.contains(friend.uuid) {
             addFriendButton.setImage(UIImage(named: "checkmark"), for: .normal)
+        } else {
+            addFriendButton.setImage(UIImage(named: "circle"), for: .normal)
+        }
+    }
+    
+    func changeBoxImage() {
+        guard let friend = friend, let user = UserController.shared.currentUser else { return }
+        if !user.friends.contains(friend.uuid) {
+            addFriendButton.setImage(UIImage(named: "circle"), for: .normal)
             FriendController.shared.addToFriendsList(uuid: friend.uuid, username: friend.username) { (_) in
             }
         } else {
-            addFriendButton.setImage(UIImage(named: "circle"), for: .normal)
-            guard let user = user else { return }
-            FriendController.shared.removeFriendFromList(user: user, friend: friend) { (_) in
+            addFriendButton.setImage(UIImage(named: "checkmark"), for: .normal)
+            FriendController.shared.removeFriendFromList(friend: friend) { (_) in
             }
         }
     }
-
 }

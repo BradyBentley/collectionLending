@@ -24,6 +24,7 @@ class CollectionDetailViewController: UIViewController {
     @IBOutlet weak var statusPickerView: UIPickerView!
     @IBOutlet weak var countPickerView: UIPickerView!
     @IBOutlet weak var editButton: UIBarButtonItem!
+    @IBOutlet weak var deleteButton: UIButton!
     
     // MARK: - Properties
     var collection: Collection?
@@ -62,6 +63,15 @@ class CollectionDetailViewController: UIViewController {
         }
     }
     
+    @IBAction func deleteButtonTapped(_ sender: Any) {
+        guard let collection = collection else { return }
+        CollectionController.shared.deleteItem(collection: collection) { (success) in
+            if success {
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+    }
+    
     // MARK: - Methods
     func updateView() {
         guard let collection = collection else { return }
@@ -73,6 +83,7 @@ class CollectionDetailViewController: UIViewController {
             countTextField.text = "\(collection.count)"
             statusTextField.text = collection.status
             editButton.title = "Done"
+            deleteButton.isHidden = false
         } else {
             collectionItemImageView.image = collection.collectionItemImage
             collectionTitleLabel.text = collection.title
@@ -82,6 +93,7 @@ class CollectionDetailViewController: UIViewController {
             itemLabelStackView.isHidden = false
             itemEditableStackView.isHidden = true
             editButton.title = "Edit"
+            deleteButton.isHidden = true
         }
     }
     

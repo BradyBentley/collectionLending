@@ -18,7 +18,6 @@ class AddItemLendableViewController: UIViewController {
     @IBOutlet weak var friendsNameTextField: UITextField!
     
     // MARK: - Properties
-    var collection: Collection?
     var lendable: Lendable?
     var movieTitles: [String] = []
     

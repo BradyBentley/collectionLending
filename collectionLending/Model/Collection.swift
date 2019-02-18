@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol SearchableRecord {
+    func matches(searchTerm: String) -> Bool
+}
+
 class Collection {
    // MARK: - Properties
     var title: String
@@ -67,3 +71,12 @@ extension Collection: Equatable {
         return lhs.title == rhs.title && lhs.count == rhs.count && lhs.status == rhs.status
     }
 }
+
+// MARK: - Searchable
+extension Collection: SearchableRecord {
+    func matches(searchTerm: String) -> Bool {
+        return self.title.lowercased().contains(searchTerm.lowercased())
+    }
+}
+
+

@@ -39,7 +39,11 @@ class CollectionController {
     func deleteItem(collection: Collection, completion: @escaping SuccessCompletion) {
         guard let index = collections.index(of: collection) else { completion(false) ; return }
         collections.remove(at: index)
-        Firebase.shared.deleteAnItemFromFirebase(collection: collection) { (_) in
+        Firebase.shared.deleteAnItemFromFirebase(collection: collection) { (success) in
+            if success {
+                Firebase.shared.deleteItemImage(title: collection.title, completion: { (_) in
+                })
+            }
         }
         completion(true)
     }

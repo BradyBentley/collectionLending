@@ -32,6 +32,15 @@ class ItemDetailLendableViewController: UIViewController {
         updateViews()
     }
     
+    @IBAction func deleteButtonTapped(_ sender: Any) {
+        guard let lendable = lendable else { return}
+        LendableController.shared.deleteLendable(lendable: lendable, completion: { (success) in
+            if success {
+                self.navigationController?.popViewController(animated: true)
+            }
+        })
+    }
+    
     // MARK: - Methods
     func updateViews() {
         guard let lendable = lendable else { return }
