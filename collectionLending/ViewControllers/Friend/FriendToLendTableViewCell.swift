@@ -17,11 +17,6 @@ class FriendToLendTableViewCell: UITableViewCell {
     
     
     // MARK: - Properties
-    var friend: User? {
-        didSet {
-            updateView()
-        }
-    }
     var collection: Collection? {
         didSet {
             updateView()
@@ -34,5 +29,6 @@ class FriendToLendTableViewCell: UITableViewCell {
         friendItemImageView.image = collection.collectionItemImage
         friendTitleLabel.text = collection.title
         friendStatusLabel.text = collection.status
-    }    
+//        friendNameLabel.text = friend
+    }
 }

@@ -50,7 +50,6 @@ class ItemDetailLendableViewController: UIViewController {
         titleLabel.text = lendable.title
         if lendable.isReturned {
             returnedButton.setImage(UIImage(named: "checkmark"), for: .normal)
-            
             Firebase.shared.updateIsReturned(lendable: lendable, isReturned: lendable.isReturned) { (_) in
             }
         } else {

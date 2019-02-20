@@ -18,8 +18,8 @@ class WelcomeViewController: UIViewController {
     // MARK: - ViewLifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        logInButton.layer.cornerRadius = 20
-        signUpButton.layer.cornerRadius = 20
+        logInButton.layer.cornerRadius = 15
+        signUpButton.layer.cornerRadius = 15
         Auth.auth().addStateDidChangeListener { (auth, user) in
             if let user = user {
                 let uuid = user.uid

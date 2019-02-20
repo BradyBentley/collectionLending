@@ -12,7 +12,7 @@ class FriendController {
     // MARK: - Properties
     static let shared = FriendController()
     var friends: [User] = []
-    var friendsCollections: [Collection] = []
+    var friendsCollections: [[Collection]] = []
     
     // MARK: - Methods
     func addToFriendsList(uuid: String, username: String, completion: @escaping SuccessCompletion) {

@@ -16,12 +16,10 @@ class CollectionTableViewController: UITableViewController {
     var resultsArray: [SearchableRecord]?
     var isSearching: Bool = false
     var collection: Collection?
-    var user: User?
     
     // MARK: - ViewLifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = user?.username
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         Firebase.shared.fetchItemsFromFirebase { (success) in
             if success {
@@ -33,7 +31,6 @@ class CollectionTableViewController: UITableViewController {
                                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
                                     self.tableView.reloadData()
                                 }
-                                
                             }
                         })
                     }
@@ -90,6 +87,20 @@ class CollectionTableViewController: UITableViewController {
     }
 }
 
+// MARK: - AddItemLendableViewControllerDelegate
+extension CollectionTableViewController: AddItemLendableViewControllerDelegate {
+    func itemStatusChange(title: String) {
+        guard let collection = collection else { return }
+        if title == collection.title {
+            collection.status = "Out"
+            Firebase.shared.updateItemStatus(collection: collection) { (_) in
+            }
+        }
+    }
+}
+
+
+// MARK: - SearchBardDelegate
 extension CollectionTableViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         let collections = CollectionController.shared.collections

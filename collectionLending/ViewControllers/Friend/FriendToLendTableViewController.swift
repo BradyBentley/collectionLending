@@ -21,13 +21,12 @@ class FriendToLendTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         friendsItemSearchBar.delegate = self
-//        fetchFriendsItems()
+        fetchFriendsItems()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchFriendsItems()
-        
+        tableView.reloadData()
     }
     
     // MARK: - Methods
@@ -39,12 +38,21 @@ class FriendToLendTableViewController: UITableViewController {
         }
     }
     
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return FriendController.shared.friendsCollections.count
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let friendCollection =  FriendController.shared.friendsCollections[section].first
+        return friendCollection?.title
+    }
+    
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isSearching == true {
             return resultsArray?.count ?? 0
         } else {
-            return FriendController.shared.friendsCollections.count
+            return FriendController.shared.friendsCollections[section].count
         }
     }
     
@@ -54,7 +62,8 @@ class FriendToLendTableViewController: UITableViewController {
             let collection = resultsArray?[indexPath.row] as? Collection
             cell.collection = collection
         } else {
-            let collection = FriendController.shared.friendsCollections[indexPath.row]
+            let friendCollections = FriendController.shared.friendsCollections[indexPath.section]
+            let collection = friendCollections[indexPath.row]
             cell.collection = collection
         }
         return cell
@@ -63,19 +72,19 @@ class FriendToLendTableViewController: UITableViewController {
 
 // MARK: - SearchBarDelegate
 extension FriendToLendTableViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        let friendsCollection = FriendController.shared.friendsCollections
-        let filterFriendsCollection = friendsCollection.filter{ $0.matches(searchTerm: searchText)}.compactMap{ $0 as SearchableRecord}
-        resultsArray = filterFriendsCollection
-        tableView.reloadData()
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        resultsArray = FriendController.shared.friendsCollections
-        tableView.reloadData()
-        searchBar.text = ""
-        searchBar.resignFirstResponder()
-    }
+//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+//        let friendsCollection = FriendController.shared.friendsCollections
+//        let filterFriendsCollection = friendsCollection.filter{ $0.matches(searchTerm: searchText)}.compactMap{ $0 as SearchableRecord}
+//        resultsArray = filterFriendsCollection
+//        tableView.reloadData()
+//    }
+//
+//    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+//        resultsArray = FriendController.shared.friendsCollections
+//        tableView.reloadData()
+//        searchBar.text = ""
+//        searchBar.resignFirstResponder()
+//    }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         isSearching = true

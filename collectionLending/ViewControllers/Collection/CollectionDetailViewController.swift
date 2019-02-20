@@ -64,12 +64,7 @@ class CollectionDetailViewController: UIViewController {
     }
     
     @IBAction func deleteButtonTapped(_ sender: Any) {
-        guard let collection = collection else { return }
-        CollectionController.shared.deleteItem(collection: collection) { (success) in
-            if success {
-                self.navigationController?.popViewController(animated: true)
-            }
-        }
+        areYouSureDeleteAlertController()
     }
     
     // MARK: - Methods
@@ -212,5 +207,24 @@ extension CollectionDetailViewController: UITextFieldDelegate {
     
     @objc func hideKeyboard() {
         view.endEditing(true)
+    }
+}
+
+// MARK: - AlertController
+extension CollectionDetailViewController {
+    func areYouSureDeleteAlertController() {
+        guard let collection = collection else { return }
+        let areYouSure = UIAlertController(title: "Delete Item", message: "Are You Sure You Want To Delete?", preferredStyle: .alert)
+        let okayAction = UIAlertAction(title: "Delete", style: .destructive) { (_) in
+            CollectionController.shared.deleteItem(collection: collection, completion: { (success) in
+                if success {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            })
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        areYouSure.addAction(okayAction)
+        areYouSure.addAction(cancel)
+        self.present(areYouSure, animated: true)
     }
 }

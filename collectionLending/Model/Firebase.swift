@@ -72,14 +72,33 @@ class Firebase {
                     completion(false)
                 }
                 guard let documents = query?.documents else { completion(false) ; return }
-                let collections = documents.compactMap { Collection(firebaseDictionary: $0.data())}
-                FriendController.shared.friendsCollections = collections
-                for collection in collections {
-                    self.fetchFriendsItemImage(friend: friend, title: collection.title, completion: { (image) in
+                let collection = documents.compactMap { Collection(firebaseDictionary: $0.data())}
+                FriendController.shared.friendsCollections.append(collection)
+                for collection in collection {
+                    self.fetchFriendsItemImage(friendUUID: friend.uuid, title: collection.title, completion: { (image) in
                         collection.collectionItemImage = image
                         completion(true)
                     })
                 }
+            }
+        }
+    }
+    
+    func fetchItemForFriend(friendUUID: String, completion: @escaping SuccessCompletion) {
+        firestore.collection(Collection.collectionKeys.userKey).document(friendUUID).collection(Collection.collectionKeys.collectionKey).getDocuments { (query, error) in
+            if let error = error {
+                print("❌Error obtaining documents: \(error) \(error.localizedDescription)")
+                completion(false)
+                return
+            }
+            guard let documents = query?.documents else { completion(false) ; return }
+            let collection = documents.compactMap{ Collection(firebaseDictionary: $0.data()) }
+            FriendController.shared.friendsCollections.append(collection)
+            for collection in collection {
+                self.fetchFriendsItemImage(friendUUID: friendUUID, title: collection.title, completion: { (image) in
+                    collection.collectionItemImage = image
+                    completion(true)
+                })
             }
         }
     }
@@ -91,6 +110,13 @@ class Firebase {
                            Collection.collectionKeys.statusKey: status,
                            Collection.collectionKeys.countKey: count
             ])
+        completion(true)
+    }
+    
+    func updateItemStatus(collection: Collection, completion: @escaping SuccessCompletion) {
+        guard let currentUser = UserController.shared.currentUser?.uuid else { completion(false) ; return }
+        let docRef = firestore.collection(Collection.collectionKeys.userKey).document(currentUser).collection(Collection.collectionKeys.collectionKey).document(collection.uuid)
+        docRef.updateData([Collection.collectionKeys.statusKey: collection.status])
         completion(true)
     }
     
@@ -148,8 +174,8 @@ class Firebase {
         }
     }
     
-    func fetchFriendsItemImage(friend: User, title: String, completion: @escaping (UIImage?) -> Void) {
-        let gsReference = storage.reference(forURL: "gs://collectionlending.appspot.com/\(friend.uuid)/\(title).jpeg")
+    func fetchFriendsItemImage(friendUUID: String, title: String, completion: @escaping (UIImage?) -> Void) {
+        let gsReference = storage.reference(forURL: "gs://collectionlending.appspot.com/\(friendUUID)/\(title).jpeg")
         gsReference.getData(maxSize: 1 * 1024 * 1024) { (data, error) in
             if let error = error {
                 print("❌Error: \(error) \(error.localizedDescription)")
@@ -258,14 +284,14 @@ class Firebase {
     // MARK: - Lendable
     func saveLendableToFirebase(lendable: Lendable, completion: @escaping SuccessCompletion) {
         guard let currentUser = UserController.shared.currentUser?.uuid else { completion(false) ; return }
-        let docRef = firestore.collection(Collection.collectionKeys.collectionKey).document(currentUser).collection(Lendable.lendableKeys.lendableKey).document(lendable.uuid)
+        let docRef = firestore.collection(Collection.collectionKeys.userKey).document(currentUser).collection(Lendable.lendableKeys.lendableKey).document(lendable.uuid)
         docRef.setData(lendable.dictionary)
         completion(true)
     }
     
     func fetchLendable(completion: @escaping SuccessCompletion) {
         guard let currentUser = UserController.shared.currentUser?.uuid else { completion(false) ; return }
-        firestore.collection(Collection.collectionKeys.collectionKey).document(currentUser).collection(Lendable.lendableKeys.lendableKey).getDocuments { (query, error) in
+        firestore.collection(Collection.collectionKeys.userKey).document(currentUser).collection(Lendable.lendableKeys.lendableKey).getDocuments { (query, error) in
             if let error = error {
                 print("❌Error: \(error) \(error.localizedDescription)")
                 completion(false)
@@ -285,13 +311,13 @@ class Firebase {
     
     func updateIsReturned(lendable: Lendable, isReturned: Bool, completion: @escaping SuccessCompletion) {
         guard let currentUser = UserController.shared.currentUser?.uuid else { completion(false) ; return }
-        let docRef = firestore.collection(Collection.collectionKeys.collectionKey).document(currentUser).collection(Lendable.lendableKeys.lendableKey).document(lendable.uuid)
+        let docRef = firestore.collection(Collection.collectionKeys.userKey).document(currentUser).collection(Lendable.lendableKeys.lendableKey).document(lendable.uuid)
         docRef.updateData([Lendable.lendableKeys.isReturnedKey: isReturned])
     }
     
     func deleteLendableFromFirebase(lendable: Lendable, completion: @escaping SuccessCompletion) {
         guard let currentUser = UserController.shared.currentUser?.uuid else { completion(false) ; return }
-        let docRef = firestore.collection(Collection.collectionKeys.collectionKey).document(currentUser).collection(Lendable.lendableKeys.lendableKey).document(lendable.uuid)
+        let docRef = firestore.collection(Collection.collectionKeys.userKey).document(currentUser).collection(Lendable.lendableKeys.lendableKey).document(lendable.uuid)
         docRef.delete()
         completion(true)
     }

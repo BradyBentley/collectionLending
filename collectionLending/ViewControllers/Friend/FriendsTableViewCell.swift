@@ -24,7 +24,6 @@ class FriendsTableViewCell: UITableViewCell {
             updateViews()
         }
     }
-    var user: User?
     var isFriend: Bool = false
     
     // MARK: - Actions
@@ -49,11 +48,20 @@ class FriendsTableViewCell: UITableViewCell {
         guard let friend = friend, let user = UserController.shared.currentUser else { return }
         if !user.friends.contains(friend.uuid) {
             addFriendButton.setImage(UIImage(named: "circle"), for: .normal)
-            FriendController.shared.addToFriendsList(uuid: friend.uuid, username: friend.username) { (_) in
+            FriendController.shared.addToFriendsList(uuid: friend.uuid, username: friend.username) { (success) in
+                if success {
+                    Firebase.shared.fetchItemForFriend(friendUUID: friend.uuid, completion: { (_) in
+                    })
+                }
             }
         } else {
             addFriendButton.setImage(UIImage(named: "checkmark"), for: .normal)
-            FriendController.shared.removeFriendFromList(friend: friend) { (_) in
+            FriendController.shared.removeFriendFromList(friend: friend) { (success) in
+                if success {
+                    FriendController.shared.friendsCollections = []
+                    Firebase.shared.fetchItemsForFriends(completion: { (_) in
+                    })
+                }
             }
         }
     }

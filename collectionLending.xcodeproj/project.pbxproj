@@ -166,9 +166,9 @@
 			isa = PBXGroup;
 			children = (
 				26977458221224D500E7EEA0 /* FriendToLendTableViewController.swift */,
+				269774612213416B00E7EEA0 /* FriendToLendTableViewCell.swift */,
 				2697745D22123E0600E7EEA0 /* FriendsTableViewController.swift */,
 				2697745F22123E4E00E7EEA0 /* FriendsTableViewCell.swift */,
-				269774612213416B00E7EEA0 /* FriendToLendTableViewCell.swift */,
 			);
 			path = Friend;
 			sourceTree = "<group>";

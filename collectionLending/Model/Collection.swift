@@ -18,7 +18,6 @@ class Collection {
     var status: String
     var collectionItemImage: UIImage?
     var count: Int
-    var friends: [String]
     var uuid: String
     
     
@@ -28,10 +27,10 @@ class Collection {
         static let statusKey = "status"
         static let collectionItemImageKey = "collectionItemImage"
         static let countKey = "count"
-        static let friendsKey = "friends"
         static let uuidKey = "uuid"
         static let userKey = "users"
         static let collectionKey = "collection"
+        static let belongsToKey = "belongsToKey"
     }
     
     // MARK: - Initialization
@@ -40,7 +39,6 @@ class Collection {
         self.status = status
         self.collectionItemImage = collectionItemImage
         self.count = count
-        self.friends = friends
         self.uuid = uuid
     }
     
@@ -48,9 +46,8 @@ class Collection {
         guard let title = firebaseDictionary[collectionKeys.titleKey] as? String,
         let status = firebaseDictionary[collectionKeys.statusKey] as? String,
         let count = firebaseDictionary[collectionKeys.countKey] as? Int,
-            let friends = firebaseDictionary[collectionKeys.friendsKey] as? [String],
         let uuid = firebaseDictionary[collectionKeys.uuidKey] as? String else { return nil }
-        self.init(title: title, status: status, collectionItemImage: nil, count: count, friends: friends, uuid: uuid)
+        self.init(title: title, status: status, collectionItemImage: nil, count: count, uuid: uuid)
     }
 }
 
@@ -59,7 +56,6 @@ extension Collection {
         return [collectionKeys.titleKey: title,
                 collectionKeys.statusKey: status,
                 collectionKeys.countKey: count,
-                collectionKeys.friendsKey: friends,
                 collectionKeys.uuidKey: uuid
         ]
     }
@@ -68,7 +64,7 @@ extension Collection {
 // MARK: - Equatable
 extension Collection: Equatable {
     static func == (lhs: Collection, rhs: Collection) -> Bool {
-        return lhs.title == rhs.title && lhs.count == rhs.count && lhs.status == rhs.status
+        return lhs.title == rhs.title && lhs.count == rhs.count && lhs.uuid == rhs.uuid
     }
 }
 

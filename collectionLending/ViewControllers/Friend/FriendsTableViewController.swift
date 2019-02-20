@@ -14,6 +14,8 @@ class FriendsTableViewController: UITableViewController {
     
     
     // MARK: - Properties
+    var resultArray: [SearchableRecord]?
+    var isSearching: Bool = false
     var user: User?
     
     // MARK: - ViewLifeCycle
@@ -24,18 +26,28 @@ class FriendsTableViewController: UITableViewController {
                 self.tableView.reloadData()
             }
         }
+        findAFriendSearchBar.delegate = self
     }
 
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return UserController.shared.users.count
+        if isSearching == true {
+            return resultArray?.count ?? 0
+        } else {
+            return UserController.shared.users.count
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FriendCell", for: indexPath) as! FriendsTableViewCell
-        let user = UserController.shared.users[indexPath.row]
+        if isSearching == true {
+            let user = resultArray?[indexPath.row] as? User
+            cell.friend = user
+        } else {
+            let user = UserController.shared.users[indexPath.row]
+            cell.friend = user
+        }
         cell.delegate = self
-        cell.friend = user
         return cell
     }
 
@@ -47,6 +59,31 @@ class FriendsTableViewController: UITableViewController {
 extension FriendsTableViewController: FriendsTableViewCellDelegate {
     func cellButtonTapped(_ cell: FriendsTableViewCell) {
         tableView.reloadData()
+    }
+}
+
+// MARK: - SearchBarDelegate
+extension FriendsTableViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        let friends = UserController.shared.users
+        let filterFriends = friends.filter{ $0.matches(searchTerm: searchText)}.compactMap{ $0 as SearchableRecord}
+        resultArray = filterFriends
+        tableView.reloadData()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        resultArray = UserController.shared.users
+        tableView.reloadData()
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        isSearching = true
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        isSearching = false
     }
 }
 

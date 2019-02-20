@@ -52,3 +52,12 @@ extension User {
         ]
     }
 }
+
+// MARK: - Searchable
+extension User: SearchableRecord {
+    func matches(searchTerm: String) -> Bool {
+        return self.username.lowercased().contains(searchTerm.lowercased())
+    }
+    
+    
+}

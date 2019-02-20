@@ -9,6 +9,10 @@
 import UIKit
 import Photos
 
+protocol AddItemLendableViewControllerDelegate: class {
+    func itemStatusChange(title: String)
+}
+
 class AddItemLendableViewController: UIViewController {
     // MARK: - IBOutlets
     @IBOutlet weak var titleTextField: UITextField!
@@ -18,6 +22,7 @@ class AddItemLendableViewController: UIViewController {
     @IBOutlet weak var friendsNameTextField: UITextField!
     
     // MARK: - Properties
+    weak var delegate: AddItemLendableViewControllerDelegate?
     var lendable: Lendable?
     var movieTitles: [String] = []
     
@@ -37,6 +42,7 @@ class AddItemLendableViewController: UIViewController {
     @IBAction func saveButtonTapped(_ sender: Any) {
         guard let title = titleTextField.text, let image = borrowerImageView.image, let friendsName = friendsNameTextField.text else { return }
         let dueDate = dueDatePickerView.date
+//        delegate?.itemStatusChange(title: title)
         LendableController.shared.createLendable(friendsName: friendsName, title: title, dueDate: dueDate, image: image) { (success) in
             Firebase.shared.savingBorrowerImageToStorage(image: image, title: title, friendsName: friendsName, completion: { (success) in
                 DispatchQueue.main.async {
@@ -44,7 +50,6 @@ class AddItemLendableViewController: UIViewController {
                 }
             })
         }
-        
     }
     
     @IBAction func cameraButtonTapped(_ sender: Any) {
