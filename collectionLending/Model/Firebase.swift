@@ -63,28 +63,7 @@ class Firebase {
         }
     }
     
-    func fetchItemsForFriends(completion: @escaping SuccessCompletion) {
-        let friends = FriendController.shared.friends
-        for friend in friends {
-            firestore.collection(Collection.collectionKeys.userKey).document(friend.uuid).collection(Collection.collectionKeys.collectionKey).getDocuments { (query, error) in
-                if let error = error {
-                    print("❌Error obtaing Documents: \(error) \(error.localizedDescription)")
-                    completion(false)
-                }
-                guard let documents = query?.documents else { completion(false) ; return }
-                let collection = documents.compactMap { Collection(firebaseDictionary: $0.data())}
-                FriendController.shared.friendsCollections.append(collection)
-                for collection in collection {
-                    self.fetchFriendsItemImage(friendUUID: friend.uuid, title: collection.title, completion: { (image) in
-                        collection.collectionItemImage = image
-                        completion(true)
-                    })
-                }
-            }
-        }
-    }
-    
-    func fetchItemForFriend(friendUUID: String, completion: @escaping SuccessCompletion) {
+    func fetchItemForFriend(friendUsername: String, friendUUID: String, completion: @escaping SuccessCompletion) {
         firestore.collection(Collection.collectionKeys.userKey).document(friendUUID).collection(Collection.collectionKeys.collectionKey).getDocuments { (query, error) in
             if let error = error {
                 print("❌Error obtaining documents: \(error) \(error.localizedDescription)")
@@ -97,6 +76,7 @@ class Firebase {
             for collection in collection {
                 self.fetchFriendsItemImage(friendUUID: friendUUID, title: collection.title, completion: { (image) in
                     collection.collectionItemImage = image
+                    collection.username = friendUsername
                     completion(true)
                 })
             }

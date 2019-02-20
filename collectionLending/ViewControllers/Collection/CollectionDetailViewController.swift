@@ -28,7 +28,7 @@ class CollectionDetailViewController: UIViewController {
     
     // MARK: - Properties
     var collection: Collection?
-    var statusList: [String] = ["Lendable", "Non-Lendable", "Out"]
+    var statusList: [String] = ["Lendable", "Non-Lendable"]
     var count: Int = 1
     
     // MARK: - ViewLifeCycle

@@ -50,7 +50,7 @@ class FriendsTableViewCell: UITableViewCell {
             addFriendButton.setImage(UIImage(named: "circle"), for: .normal)
             FriendController.shared.addToFriendsList(uuid: friend.uuid, username: friend.username) { (success) in
                 if success {
-                    Firebase.shared.fetchItemForFriend(friendUUID: friend.uuid, completion: { (_) in
+                    Firebase.shared.fetchItemForFriend(friendUsername: friend.username, friendUUID: friend.uuid, completion: { (_) in
                     })
                 }
             }
@@ -59,7 +59,7 @@ class FriendsTableViewCell: UITableViewCell {
             FriendController.shared.removeFriendFromList(friend: friend) { (success) in
                 if success {
                     FriendController.shared.friendsCollections = []
-                    Firebase.shared.fetchItemsForFriends(completion: { (_) in
+                    Firebase.shared.fetchItemForFriend(friendUsername: friend.username, friendUUID: friend.uuid, completion: { (_) in
                     })
                 }
             }

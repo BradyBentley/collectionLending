@@ -31,23 +31,26 @@ class FriendToLendTableViewController: UITableViewController {
     
     // MARK: - Methods
     func fetchFriendsItems() {
-        Firebase.shared.fetchItemsForFriends { (success) in
-            if success {
-                self.tableView.reloadData()
+        for friend in FriendController.shared.friends {
+            Firebase.shared.fetchItemForFriend(friendUsername: friend.username, friendUUID: friend.uuid) { (success) in
+                if success {
+                    self.tableView.reloadData()
+                }
             }
         }
     }
     
+    // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return FriendController.shared.friendsCollections.count
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let friendCollection =  FriendController.shared.friendsCollections[section].first
-        return friendCollection?.title
+        let friendCollection = FriendController.shared.friendsCollections[section].first
+        return friendCollection?.username
+        
     }
     
-    // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isSearching == true {
             return resultsArray?.count ?? 0

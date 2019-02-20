@@ -19,6 +19,7 @@ class Collection {
     var collectionItemImage: UIImage?
     var count: Int
     var uuid: String
+    var username: String?
     
     
     // MARK: - Keys
